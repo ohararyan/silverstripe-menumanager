@@ -15,6 +15,12 @@ class MenuSet extends DataObject implements PermissionProvider
     /**
      * @var array
      */
+    private static $has_one = array(
+        'Subsite' => 'Subsite'
+    );
+    /**
+     * @var array
+     */
     private static $has_many = array(
         'MenuItems' => 'MenuItem'
     );
@@ -139,6 +145,10 @@ class MenuSet extends DataObject implements PermissionProvider
 
         } else {
             $fields->push(new TextField('Name', 'Name (this field can\'t be changed once set)'));
+        }
+
+        if(class_exists('Subsite')){
+            $fields->push(new HiddenField('SubsiteID','SubsiteID', Subsite::currentSubsiteID()));
         }
 
         $this->extend('updateCMSFields', $fields);
